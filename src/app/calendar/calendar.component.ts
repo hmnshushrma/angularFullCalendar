@@ -1,46 +1,15 @@
 import { Component } from '@angular/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import { CalendarOptions } from '@fullcalendar/core';
-import { EventInput } from '@fullcalendar/core';
-import listPlugin from '@fullcalendar/list';
+import { SchedulerComponent } from '../sheduler/sheduler.component';
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [FullCalendarModule],
+  imports: [SchedulerComponent],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
 })
 export class CalendarComponent {
-  calenderOptions: CalendarOptions = {
-    editable: true,
-    headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'timeGridDay,timeGridWeek,dayGridMonth',
-      // right: 'listDay, listWeek, listMonth,  timeGridDay',
-    },
-    nowIndicator: true,
-    // initialView: 'listWeek',
-    initialView: window.innerWidth >= 765 ? 'listWeek' : 'listDay',
-    plugins: [dayGridPlugin, listPlugin, interactionPlugin, timeGridPlugin],
-    eventContent: this.eventTemplateContent,
-    dateClick: (arg) => this.handleDateClick(arg),
-    allDaySlot: false,
-    aspectRatio: 1.5,
-    // slotMinTime: '08:00:00',
-    // slotMaxTime: '22:00:00',
-    eventTimeFormat: {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    },
-  };
-
-  calendarEvents: EventInput[] = [
+  calendarEvents = [
     {
       id: '1',
       title: 'Meeting with Team',
@@ -122,43 +91,4 @@ export class CalendarComponent {
       },
     },
   ];
-
-  handleDateClick(arg: any) {
-    alert('date click! ' + arg.dateStr);
-  }
-  handleEventDrop(eventDropInfo: any) {
-    const updatedEvent = this.calendarEvents.find(
-      (event) => event.id === eventDropInfo.event.id
-    );
-    if (updatedEvent) {
-      updatedEvent.date = eventDropInfo.event.startStr;
-      console.log(`Task "${updatedEvent.title}" moved to ${updatedEvent.date}`);
-    }
-  }
-
-  eventTemplateContent(arg: any) {
-    const { extendedProps, start, end } = arg.event;
-    const state = extendedProps.state;
-    const location = extendedProps.location;
-    const startTime = new Date(start).toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-    const endTime = new Date(end).toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-
-    const html = `
-      <div class="custom-event-card">
-        <div class="event-time">${startTime} - ${endTime}</div>
-        <div class="event-location">${location}</div>
-        <div class="event-state">${state}</div>
-      </div>
-    `;
-
-    const div = document.createElement('div');
-    div.innerHTML = html.trim();
-    return { domNodes: [div] };
-  }
 }

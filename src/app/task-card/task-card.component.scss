@@ -1,0 +1,16 @@
+.task-card {
+  border-left-width: 5px;
+  border-left-style: solid;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.task-card.scheduled {
+  border-color: #326dd0;
+}
+.task-card.in-progress {
+  border-color: #eca000;
+}
+.task-card.completed {
+  border-color: #40a14d;
+}

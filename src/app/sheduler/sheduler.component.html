@@ -1,0 +1,40 @@
+<!-- scheduler.component.html -->
+
+<!-- View Selector at the top -->
+<app-view-selector (viewChange)="handleEvent($event)"></app-view-selector>
+
+<!-- Week View -->
+<div *ngIf="currentView === 'week'">
+  <div *ngFor="let day of getWeekDates()">
+    <h3>{{ day | date : "EEEE, MMM d" }}</h3>
+    <div *ngFor="let event of getEventsForDay(day)">
+      <app-task-card [task]="event"></app-task-card>
+    </div>
+  </div>
+</div>
+
+<!-- Day View -->
+<div *ngIf="currentView === 'day'">
+  <div *ngFor="let hour of getDayHours()">
+    <div class="hour-label">{{ hour }}:00</div>
+    <div *ngFor="let event of getEventsForHour(hour)">
+      <app-task-card [task]="event"></app-task-card>
+    </div>
+  </div>
+  <div class="current-time-line" [ngStyle]="{ top: currentTimePosition }"></div>
+</div>
+
+<!-- Month View -->
+<div *ngIf="currentView === 'month'" class="month-calendar">
+  <div *ngFor="let day of getDaysInMonth()">
+    <div class="calendar-day">
+      <div>{{ day | date : "d" }}</div>
+      <div *ngFor="let event of getEventsForDay(day)">
+        <div
+          class="event-dot"
+          [ngStyle]="{ backgroundColor: getEventColor(event) }"
+        ></div>
+      </div>
+    </div>
+  </div>
+</div>
