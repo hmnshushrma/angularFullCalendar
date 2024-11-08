@@ -3,10 +3,12 @@
   [ngStyle]="{ 'border-left': '5px solid ' + getBorderColor() }"
 >
   <h3>{{ task.title }}</h3>
-  <p>
-    <strong>Time:</strong> {{ task.start | date : "shortTime" }} -
-    {{ task.end | date : "shortTime" }}
-  </p>
-  <p><strong>Location:</strong> {{ task.extendedProps.location }}</p>
-  <p><strong>Status:</strong> {{ task.extendedProps.state }}</p>
+  <div>
+    <p>
+      <strong>Time:</strong> {{ task.start | date : "shortTime" }} -
+      {{ task.end | date : "shortTime" }}
+    </p>
+    <p><strong>Location:</strong> {{ task.extendedProps.location }}</p>
+    <p><strong>Status:</strong> {{ task.extendedProps.state }}</p>
+  </div>
 </div>

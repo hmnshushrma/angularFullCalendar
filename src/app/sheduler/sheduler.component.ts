@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Task } from '../../constants/task.model';
 import { TaskCardComponent } from '../task-card/task-card.component';
 import { CommonModule } from '@angular/common';
@@ -6,7 +6,7 @@ import { ViewSelectorComponent } from '../view-selector/view-selector.component'
 @Component({
   selector: 'app-sheduler',
   standalone: true,
-  imports: [TaskCardComponent, CommonModule],
+  imports: [TaskCardComponent, CommonModule, ViewSelectorComponent],
   templateUrl: './sheduler.component.html',
   styleUrl: './sheduler.component.scss',
 })
@@ -47,13 +47,15 @@ export class SchedulerComponent implements OnInit {
     setInterval(() => this.setCurrentTimePosition(), 60000);
   }
 
-  onViewChange(view: string) {
+  onViewChange(view: any) {
     this.currentView = view; // Correctly handle the string value
+    console.log(view);
     this.updateEventsForView();
     // Logic to filter or reformat calendarEvents based on the selected view
   }
 
   handleEvent(args: any): any {
+    this.currentView = args;
     console.log(args);
   }
 
